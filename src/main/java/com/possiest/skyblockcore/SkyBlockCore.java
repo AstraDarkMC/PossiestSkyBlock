@@ -4,10 +4,11 @@ import com.possiest.skyblockcore.dungeon.brekableBlocks.BreakableBlocks;
 import com.possiest.skyblockcore.helper.ReflectionHelper;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SkyBlockCore extends JavaPlugin {
-    private SkyBlockCore skyBlockCore;
+    private static SkyBlockCore skyBlockCore;
     private ReflectionHelper reflectionHelper;
 
     @Override
@@ -21,13 +22,14 @@ public final class SkyBlockCore extends JavaPlugin {
         registerWorlds();
         registerQuests();
         registerGUIs();
+        scoreboard();
     }
 
     @Override
     public void onDisable() {endMessage();}
 
     private void registerCommands() {
-
+        //getCommand("ssb").setExecutor(new (this));
     }
 
     private void registerEvents() {
@@ -54,8 +56,8 @@ public final class SkyBlockCore extends JavaPlugin {
 
     }
 
-    public SkyBlockCore getSkyBlockCore() {
-        return skyBlockCore;
+    private void scoreboard(){
+
     }
 
     public ReflectionHelper getReflectionHelper() {
@@ -66,11 +68,16 @@ public final class SkyBlockCore extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage(ChatColor.of("#45b2ed")+"SkyBlockCore has been enabled!");
         Bukkit.getConsoleSender().sendMessage("");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.of("#45b2ed")+"");
     }
 
     private void endMessage() {
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage(ChatColor.of("#ed4566")+"SkyBlockCore has been disabled!");
         Bukkit.getConsoleSender().sendMessage("");
+    }
+
+    public Plugin getInstance() {
+        return skyBlockCore;
     }
 }

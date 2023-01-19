@@ -4,3 +4,5 @@ main: com.possiest.skyblockcore.SkyBlockCore
 api-version: 1.19
 authors: [ MathiasClari ]
 description: Made with love by Possiest
+commands:
+  ssb:

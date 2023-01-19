@@ -9,11 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 public class MenuListener implements Listener {
-    private final SkyBlockCore plugin;
 
-    public MenuListener(SkyBlockCore plugin) {
-        this.plugin = plugin;
-    }
 
     public void onMenuClick(InventoryClickEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
