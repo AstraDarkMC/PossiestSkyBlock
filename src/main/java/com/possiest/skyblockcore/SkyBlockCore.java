@@ -2,6 +2,8 @@ package com.possiest.skyblockcore;
 
 import com.possiest.skyblockcore.dungeon.brekableBlocks.BreakableBlocks;
 import com.possiest.skyblockcore.helper.ReflectionHelper;
+import com.possiest.skyblockcore.managers.skyblock.WorldManager;
+import com.possiest.skyblockcore.skyblock.SkyBlockCreatorCommand;
 import com.possiest.skyblockcore.skyblockBoards.BaseScoreBoard;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -25,6 +27,7 @@ public final class SkyBlockCore extends JavaPlugin {
         registerQuests();
         registerGUIs();
         scoreboards();
+        skyblocksystem();
     }
 
     @Override
@@ -51,6 +54,15 @@ public final class SkyBlockCore extends JavaPlugin {
     }
 
     private void registerQuests(){
+
+    }
+
+    private void skyblocksystem(){
+        //Commands
+        getCommand("is").setExecutor(new SkyBlockCreatorCommand());
+        //Events
+        Bukkit.getPluginManager().registerEvents(new WorldManager(), this);
+        //Config
 
     }
 

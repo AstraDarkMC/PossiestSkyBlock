@@ -2,6 +2,7 @@ package com.possiest.skyblockcore.skyblockBoards;
 
 import com.possiest.skyblockcore.SkyBlockCore;
 import com.possiest.skyblockcore.managers.scoreboards.engine.PossiestBoard;
+import com.possiest.skyblockcore.managers.skyblock.WorldManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -15,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 
 public class BaseScoreBoard implements Listener {
 
@@ -54,6 +56,8 @@ public class BaseScoreBoard implements Listener {
 
     }
 
+
+
     //TODO do a scoreboard
     private void updateBoard(PossiestBoard lobbysb) {
         lobbysb.updateLines(
@@ -61,7 +65,7 @@ public class BaseScoreBoard implements Listener {
                 ChatColor.of("#0F7AD9")+""+ChatColor.BOLD + "ɪsʟᴀɴᴅ sᴛᴀᴛs:",
                 ChatColor.of("#ffffff")+"» "+ChatColor.of("#00a8ff")+"ɪsʟᴀɴᴅ ʟᴇᴠᴇʟ: " + ChatColor.of("#c4cdd6")+ PlaceholderAPI.setPlaceholders(lobbysb.getPlayer(),"%fabledskyblock_island_level%"),
                 ChatColor.of("#ffffff")+"» "+ChatColor.of("#00a8ff")+"ɪsʟᴀɴᴅ ʀᴏʟᴇ: " + ChatColor.of("#c4cdd6")+PlaceholderAPI.setPlaceholders(lobbysb.getPlayer(),"%fabledskyblock_island_role%"),
-                ChatColor.of("#ffffff")+"» "+ChatColor.of("#00a8ff")+"ɪsʟᴀɴᴅ sɪᴢᴇ: " + ChatColor.of("#c4cdd6")+PlaceholderAPI.setPlaceholders(lobbysb.getPlayer(),"%fabledskyblock_island_size%"),
+                ChatColor.of("#ffffff")+"» "+ChatColor.of("#00a8ff")+"ɪsʟᴀɴᴅ ʟᴏᴀᴅᴇᴅ: " + ChatColor.of("#c4cdd6") + (WorldManager.isLoaded(lobbysb.getPlayer().getUniqueId()) ? ChatColor.of("#00a8ff") + "Yes" : ChatColor.of("#c4cdd6") + "No"),
                 "",
                 ChatColor.of("#ffffff")+"» "+ChatColor.of("#00a8ff")+"ɪsʟᴀɴᴅ ᴍᴇᴍʙᴇʀs: " + ChatColor.of("#c4cdd6")+PlaceholderAPI.setPlaceholders(lobbysb.getPlayer(),"%fabledskyblock_island_members%/%fabledskyblock_island_maxmembers%"),
                 ChatColor.of("#ffffff")+"» "+ChatColor.of("#00a8ff")+"ɪsʟᴀɴᴅ ᴠᴏᴛᴇs: " + ChatColor.of("#c4cdd6")+PlaceholderAPI.setPlaceholders(lobbysb.getPlayer(),"%fabledskyblock_island_votes%"),
