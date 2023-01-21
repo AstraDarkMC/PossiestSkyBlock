@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class SkyBlockCreatorCommand implements CommandExecutor {
@@ -29,7 +30,11 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
         // check if the world already exists
         if(Bukkit.getWorld(playerUUID.toString()) != null) {
             worldName = String.valueOf(Bukkit.getWorld(playerUUID.toString()));
-            player.teleport(isworld.getSpawnLocation());
+            Location isspawn = isworld.getSpawnLocation();
+            isspawn.setY(100);
+            isspawn.setX(0.5);
+            isspawn.setZ(0.5);
+            player.teleport(isspawn);
             player.sendMessage("Teleporting to SkyBlock world...");
             return true;
         } else {
@@ -37,7 +42,11 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
             WorldCreator creator = new WorldCreator(worldName);
             creator.generator(new VoidGen());
             World newWorld = creator.createWorld();
-            player.teleport(newWorld.getSpawnLocation());
+            Location isspawn = newWorld.getSpawnLocation();
+            isspawn.setY(100);
+            isspawn.setX(0.5);
+            isspawn.setZ(0.5);
+            player.teleport(isspawn);
             //set block on spawn
             Block block = newWorld.getSpawnLocation().getBlock();
             block.setType(blockType);
