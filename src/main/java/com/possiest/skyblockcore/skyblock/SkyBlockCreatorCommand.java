@@ -1,5 +1,7 @@
 package com.possiest.skyblockcore.skyblock;
 
+import com.possiest.skyblockcore.SkyBlockCore;
+import com.possiest.skyblockcore.managers.skyblock.generator.IslandGenerator;
 import com.possiest.skyblockcore.managers.skyblock.generator.VoidGen;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -8,7 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Locale;
 import java.util.UUID;
 
 public class SkyBlockCreatorCommand implements CommandExecutor {
@@ -50,6 +51,9 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
             //set block on spawn
             Block block = newWorld.getSpawnLocation().getBlock();
             block.setType(blockType);
+            IslandGenerator.generateIsland(newWorld, 0, 90,0 );
+            IslandGenerator.generateTrees(newWorld, 0, 90, 0);
+
             player.sendMessage("Generating SkyBlock world...");
         }
         return true;

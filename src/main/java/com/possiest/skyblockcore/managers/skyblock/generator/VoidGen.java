@@ -1,7 +1,6 @@
 package com.possiest.skyblockcore.managers.skyblock.generator;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
@@ -42,3 +41,5 @@ public class VoidGen extends ChunkGenerator {
         return new Location(world, 0.5, 99, 0.5);
     }
 }
+
+

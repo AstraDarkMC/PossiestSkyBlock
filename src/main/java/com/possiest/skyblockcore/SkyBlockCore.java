@@ -7,13 +7,18 @@ import com.possiest.skyblockcore.skyblock.SkyBlockCreatorCommand;
 import com.possiest.skyblockcore.skyblockBoards.BaseScoreBoard;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public final class SkyBlockCore extends JavaPlugin {
     private static SkyBlockCore skyBlockCore;
     private ReflectionHelper reflectionHelper;
+    private final YamlConfiguration config = new YamlConfiguration();
+
 
     @Override
     public void onEnable() {
@@ -28,6 +33,8 @@ public final class SkyBlockCore extends JavaPlugin {
         registerGUIs();
         scoreboards();
         skyblocksystem();
+        registerConfig();
+        schematicfolder();
     }
 
     @Override
@@ -41,9 +48,6 @@ public final class SkyBlockCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BreakableBlocks(), this);
     }
 
-    private void registerConfig() {
-
-    }
 
     private void registerRecipes() {
 
@@ -70,6 +74,13 @@ public final class SkyBlockCore extends JavaPlugin {
 
     }
 
+    private void schematicfolder(){
+        File schematicFolder = new File(getDataFolder(), "schematics");
+        if (!schematicFolder.exists()) {
+            schematicFolder.mkdir();
+        }
+    }
+
     private void scoreboards(){
         Bukkit.getPluginManager().registerEvents(new BaseScoreBoard(), this);
     }
@@ -94,4 +105,12 @@ public final class SkyBlockCore extends JavaPlugin {
     public static Plugin getInstance() {
         return skyBlockCore;
     }
+
+    private void registerConfig() {
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
+    }
+
+
+
 }
