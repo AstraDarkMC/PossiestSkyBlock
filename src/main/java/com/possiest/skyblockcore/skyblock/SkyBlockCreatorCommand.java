@@ -53,7 +53,8 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
             block.setType(blockType);
             IslandGenerator.generateIsland(newWorld, 0, 90,0 );
             IslandGenerator.generateTrees(newWorld, 0, 90, 0);
-
+            int height = (int)(Math.random() * 5 + 1);
+            IslandGenerator.generateRandomBranches(newWorld, 0, 90, 0, height);
             player.sendMessage("Generating SkyBlock world...");
         }
         return true;

@@ -45,20 +45,50 @@ public class IslandGenerator {
     //Tree generation
 
     public static void generateTrees(World world, int x, int y, int z) {
-        int treeHeight = (int) (Math.random() * 7 + 3);
-        for (int i = 0; i < treeHeight; i++) {
+        // Generate the trunk of the tree
+        for (int i = 0; i < 10; i++) {
             Location location = new Location(world, x, y + i, z);
-            location.getBlock().setType(Material.OAK_LOG);
+            location.getBlock().setType(Material.SPRUCE_LOG);
         }
-        for (int i = -4; i <= 4; i++) {
-            for (int j = -4; j <= 4; j++) {
-                for (int k = -2; k <= 1; k++) {
-                    int randomLeaves = (int) (Math.random() * 2);
-                    if (randomLeaves == 1) {
-                        Location location = new Location(world, x + i, y + treeHeight + k, z + j);
-                        location.getBlock().setType(Material.OAK_LEAVES);
-                    }
+
+        // Generate branches
+        generateBranches(world, x, y + 5, z, 3, 0);
+        generateBranches(world, x, y + 7, z, 2, 1);
+        generateBranches(world, x, y + 8, z, 2, -1);
+
+        // Generate leaves
+        for (int i = -2; i <= 2; i++) {
+            for (int j = -2; j <= 2; j++) {
+                for (int k = 0; k <= 2; k++) {
+                    Location location = new Location(world, x + i, y + 10 + k, z + j);
+                    location.getBlock().setType(Material.SPRUCE_LEAVES);
                 }
+            }
+        }
+    }
+
+    public static void generateRandomBranches(World world, int x, int y, int z, int height) {
+        int numberOfBranches = (int) (Math.random() * 5 + 1);
+        for (int i = 0; i < numberOfBranches; i++) {
+            double angle = Math.random() * 2 * Math.PI;
+            int branchX = (int) (x + Math.cos(angle) * 2);
+            int branchZ = (int) (z + Math.sin(angle) * 2);
+            int branchLength = (int) (Math.random() * 4 + 2);
+            IslandGenerator.generateBranches(world, branchX, y + height, branchZ, branchLength, 0);
+        }
+    }
+
+    private static void generateBranches(World world, int x, int y, int z, int length, int direction) {
+        for (int i = 0; i < length; i++) {
+            Location location = new Location(world, x + (i * direction), y + i, z);
+            location.getBlock().setType(Material.SPRUCE_LOG);
+        }
+
+        // Generate leaves around the base of the branch
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                Location location = new Location(world, x + (length * direction) + i, y + length, z + j);
+                location.getBlock().setType(Material.SPRUCE_LEAVES);
             }
         }
     }
