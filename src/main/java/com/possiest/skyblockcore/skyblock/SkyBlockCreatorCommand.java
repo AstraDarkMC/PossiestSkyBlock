@@ -1,6 +1,5 @@
 package com.possiest.skyblockcore.skyblock;
 
-import com.possiest.skyblockcore.SkyBlockCore;
 import com.possiest.skyblockcore.managers.skyblock.generator.IslandGenerator;
 import com.possiest.skyblockcore.managers.skyblock.generator.VoidGen;
 import org.bukkit.*;
@@ -52,11 +51,10 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
             Block block = newWorld.getSpawnLocation().getBlock();
             block.setType(blockType);
             IslandGenerator.generateIsland(newWorld, 0, 90,0 );
-            IslandGenerator.generateTrees(newWorld, 0, 90, 0);
-            int height = (int)(Math.random() * 5 + 1);
-            IslandGenerator.generateRandomBranches(newWorld, 0, 90, 0, height);
+                System.out.println("Trees Generated");
+            }
+            System.out.println("Not Trees Generated");
             player.sendMessage("Generating SkyBlock world...");
-        }
-        return true;
+            return true;
     }
 }
