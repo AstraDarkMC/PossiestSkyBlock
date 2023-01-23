@@ -1,54 +1,44 @@
 package com.possiest.skyblockcore.managers.skyblock.generator;
 
-import org.bukkit.Material;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.util.noise.SimplexOctaveGenerator;
+import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 public class IslandGenerator {
-    public static final int ISLAND_SIZE = 80;
-    public static final int ISLAND_CENTER = ISLAND_SIZE / 2;
-    public static final int ISLAND_RADIUS = ISLAND_SIZE / 4;
-    public static final int ISLAND_HEIGHT = 20;
 
-    public static void generateIsland(World world, int islandX, int islandY, int islandZ) {
-        SimplexOctaveGenerator generator = new SimplexOctaveGenerator(world, 8);
-        generator.setScale(0.05);
+    public static void createWorldFromLevelDat(String newWorldName, UUID playerUUID, File levelDat) {
+        // Get the world container
+        File worldContainer = Bukkit.getServer().getWorldContainer();
 
-        for (int x = islandX - ISLAND_CENTER; x < islandX + ISLAND_CENTER; x++) {
-            for (int z = islandZ - ISLAND_CENTER; z < islandZ + ISLAND_CENTER; z++) {
-                double distance = Math.sqrt(Math.pow(x - islandX, 2) + Math.pow(z - islandZ, 2));
-                if (distance > ISLAND_RADIUS) {
-                    continue;
-                }
-                double noise = generator.noise(x, z, 0.5, 0.5) * ISLAND_HEIGHT;
-                int height = (int) (ISLAND_RADIUS - distance + noise);
-                for (int y = islandY; y > islandY - height; y--) {
-                    world.getBlockAt(x, y, z).setType(Material.STONE);
-                }
-                world.getBlockAt(x, islandY - height, z).setType(Material.GRASS_BLOCK);
+        // Create a new folder for the new world
+        File newWorldFolder = new File(worldContainer, newWorldName);
+        newWorldFolder.mkdir();
 
-                //Filling gaps
-                for(int y = islandY - height - 1; y > islandY - height - 5; y--) {
-                    if(world.getBlockAt(x, y, z).getType() == Material.AIR) {
-                        world.getBlockAt(x, y, z).setType(Material.DIRT);
-                    }
-                }
-                //Smoothing out the terrain
-                for(int y = islandY - height; y > islandY - height - 5; y--) {
-                    if(world.getBlockAt(x-1, y, z).getType() != world.getBlockAt(x, y, z).getType()) {
-                        world.getBlockAt(x-1, y, z).setType(world.getBlockAt(x, y, z).getType());
-                    }
-                    if(world.getBlockAt(x+1, y, z).getType() != world.getBlockAt(x, y, z).getType()) {
-                        world.getBlockAt(x+1, y, z).setType(world.getBlockAt(x, y, z).getType());
-                    }
-                    if(world.getBlockAt(x, y, z-1).getType() != world.getBlockAt(x, y, z).getType()) {
-                        world.getBlockAt(x, y, z-1).setType(world.getBlockAt(x, y, z).getType());
-                    }
-                    if(world.getBlockAt(x, y, z+1).getType() != world.getBlockAt(x, y, z).getType()) {
-                        world.getBlockAt(x, y, z+1).setType(world.getBlockAt(x, y, z).getType());
-                    }
-                }
-            }
+        // Copy the level.dat file to the new world folder
+        try {
+            FileUtils.copyFileToDirectory(levelDat, newWorldFolder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Create the new world
+        WorldCreator creator = new WorldCreator(newWorldName);
+        World world = creator.createWorld();
+
+        // Set the spawn location for the player
+        world.setSpawnLocation(0, world.getHighestBlockYAt(0, 0), 0);
+
+        // Set the spawn location for the player
+        Player player = Bukkit.getPlayer(playerUUID);
+        if (player != null) {
+            player.teleport(world.getSpawnLocation());
         }
     }
+
 }
