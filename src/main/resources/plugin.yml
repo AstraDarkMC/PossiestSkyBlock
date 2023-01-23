@@ -8,3 +8,6 @@ commands:
   ssb:
   is:
   isdel:
+  spawn:
+    aliases:
+      - s

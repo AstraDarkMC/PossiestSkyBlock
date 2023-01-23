@@ -20,7 +20,6 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("is") && args.length == 1 && args[0].equalsIgnoreCase("create")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 UUID playerUUID = player.getUniqueId();
@@ -43,10 +42,12 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
                 World world = Bukkit.getWorld(worldName);
                 if (world == null) {
                     world = Bukkit.createWorld(new WorldCreator(worldName));
+                    world.getWorldBorder().setSize(50);
+                    world.getWorldBorder().setCenter(0, 0);
                 }
                 Location spawn = world.getSpawnLocation();
                 player.teleport(spawn);
-            }
+                player.sendMessage("You have been teleported to your island.");
         }return true;
     }
 }

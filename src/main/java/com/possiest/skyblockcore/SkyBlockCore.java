@@ -44,6 +44,7 @@ public final class SkyBlockCore extends JavaPlugin {
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new BreakableBlocks(), this);
+        getCommand("spawn").setExecutor(new Spawn());
     }
 
 
