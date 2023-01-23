@@ -1,10 +1,10 @@
 package com.possiest.skyblockcore.skyblock.commands;
 
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,39 +20,33 @@ public class SkyBlockCreatorCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            UUID playerUUID = player.getUniqueId();
-            String worldName = playerUUID.toString();
-            File worldFolder = new File(worldName);
-
-            if (!worldFolder.exists()) {
-                // if the folder does not exist create a copy of the default world and use that one
-                System.out.println("World folder for player " + player.getName() + " does not exist. Creating...");
-                try {
-                    File defaultWorld = new File("island_default");
-                    if (defaultWorld.exists()) {
-                        Files.copy(defaultWorld.toPath(), worldFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (command.getName().equalsIgnoreCase("is") && args.length == 1 && args[0].equalsIgnoreCase("create")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                UUID playerUUID = player.getUniqueId();
+                String worldName = playerUUID.toString();
+                File defaultWorld = new File("island_default");
+                File playerWorld = new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + worldName);
+                if(!playerWorld.exists()) {
+                    if(defaultWorld.exists()) {
+                        try {
+                            FileUtils.copyDirectory(defaultWorld, playerWorld);
+                            System.out.println("World folder for player " + player.getName() + " created.");
+                        } catch (IOException e) {
+                            System.out.println("Error copying default world: " + e.getMessage());
+                        }
                     } else {
                         System.out.println("Default world (island_default) not found. World not created.");
                         return true;
                     }
-                } catch (IOException e) {
-                    System.out.println("Error copying default world: " + e.getMessage());
                 }
+                World world = Bukkit.getWorld(worldName);
+                if (world == null) {
+                    world = Bukkit.createWorld(new WorldCreator(worldName));
+                }
+                Location spawn = world.getSpawnLocation();
+                player.teleport(spawn);
             }
-
-            World world = Bukkit.getWorld(worldName);
-            if (world == null) {
-                world = Bukkit.createWorld(new WorldCreator(worldName));
-            }
-
-            // Teleport player to the spawn point of the world
-            Location spawn = world.getSpawnLocation();
-                spawn.setYaw(90);
-            player.teleport(spawn);
-            }
-
-        return true;
+        }return true;
     }
 }

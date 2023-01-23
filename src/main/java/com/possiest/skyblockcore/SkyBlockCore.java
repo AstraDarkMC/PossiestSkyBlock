@@ -3,7 +3,6 @@ package com.possiest.skyblockcore;
 import com.possiest.skyblockcore.dungeon.brekableBlocks.BreakableBlocks;
 import com.possiest.skyblockcore.helper.ReflectionHelper;
 import com.possiest.skyblockcore.skyblock.commands.SkyBlockCreatorCommand;
-import com.possiest.skyblockcore.skyblock.commands.SkyBlockIslandDeleteCommand;
 import com.possiest.skyblockcore.skyblockBoards.BaseScoreBoard;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -63,7 +62,6 @@ public final class SkyBlockCore extends JavaPlugin {
     private void skyblocksystem(){
         //Commands
         getCommand("is").setExecutor(new SkyBlockCreatorCommand());
-        getCommand("isdel").setExecutor(new SkyBlockIslandDeleteCommand());
         //Config
 
     }
