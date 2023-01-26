@@ -39,7 +39,6 @@ public class ReflectionHelper {
             return field;
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException ex) {
             ex.printStackTrace();
-
             return null;
         }
     }
